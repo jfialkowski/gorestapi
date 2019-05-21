@@ -1,7 +1,7 @@
 FROM centos:latest
 RUN mkdir /opt/app
-COPY main /opt/app/main
+COPY gorestapi /opt/app/gorestapi
 USER root
-RUN chmod +x /opt/app/main
+RUN chmod +x /opt/app/gorestapi
 USER 1000001
-ENTRYPOINT "/opt/app/main"
+ENTRYPOINT "/opt/app/gorestapi"
