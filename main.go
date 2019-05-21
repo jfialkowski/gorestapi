@@ -34,7 +34,7 @@ func handleRequests() {
 }
 
 func main() {
-	//var Employees = []Employee{}
+	//Employees = []Employee{}
 	//Employees array to be used in main function
 	Employees = append(Employees, Employee{firstName: "John", lastName: "Doe", title: "Senior Developer", department: "Information Technology"})
 	Employees = append(Employees, Employee{firstName: "Jane", lastName: "Smith", title: "Manager", department: "Information Technology"})
