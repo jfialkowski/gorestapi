@@ -1,0 +1,9 @@
+{
+    "name": "gorestapi",
+    "dbConfig": {
+      "host": "gorestapi.us-east-1.rds.amazonaws.com",
+      "port": 3306,
+      "username" : "gorestapi",
+      "password" : "enterpwherefornow"
+    }
+}
