@@ -8,4 +8,5 @@ type Employee struct {
 	Department string `json:"department"`
 }
 
+//Employees interface
 type Employees []Employee

@@ -10,6 +10,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Just a Homepage, nothing really to see here! ")
 }
 
+// EmployeesIndex returns all employees
 func EmployeesIndex(w http.ResponseWriter, r *http.Request) {
 	employees := Employees{
 		Employee{FirstName: "John", LastName: "Doe", Title: "Developer", Department: "Information Technology"},

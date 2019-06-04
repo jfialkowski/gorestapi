@@ -4,6 +4,7 @@ import (
 	"net/http"
 )
 
+//Route struct for routing http requests.
 type Route struct {
 	Name        string
 	Method      string
@@ -11,6 +12,7 @@ type Route struct {
 	HandlerFunc http.HandlerFunc
 }
 
+//Routes interface
 type Routes []Route
 
 var routes = Routes{
@@ -23,6 +25,12 @@ var routes = Routes{
 	Route{
 		"EmployeesIndex",
 		"GET",
+		"/employees",
+		EmployeesIndex,
+	},
+	Route{
+		"Employees",
+		"POST",
 		"/employees",
 		EmployeesIndex,
 	},
