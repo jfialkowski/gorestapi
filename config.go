@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/base64"
 	"fmt"
+	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/awserr"
@@ -10,8 +11,9 @@ import (
 	"github.com/aws/aws-sdk-go/service/secretsmanager"
 )
 
-func getSecret() {
+func getConfig() string {
 	secretName := "gorestapiconfig"
+	config := ""
 	//region := "us-east-1"
 
 	//Create a Secrets Manager client
@@ -54,7 +56,7 @@ func getSecret() {
 			// Message from an error.
 			fmt.Println(err.Error())
 		}
-		return
+
 	}
 
 	// Decrypts secret using the associated KMS CMK.
@@ -62,21 +64,22 @@ func getSecret() {
 	var secretString, decodedBinarySecret string
 	if result.SecretString != nil {
 		secretString = *result.SecretString
-		fmt.Println(secretString)
+		config = secretString
 	} else {
 		decodedBinarySecretBytes := make([]byte, base64.StdEncoding.DecodedLen(len(result.SecretBinary)))
 		len, err := base64.StdEncoding.Decode(decodedBinarySecretBytes, result.SecretBinary)
 		if err != nil {
 			fmt.Println("Base64 Decode Error:", err)
-			return
+			os.Exit(42)
 		}
 		decodedBinarySecret = string(decodedBinarySecretBytes[:len])
-		fmt.Println(decodedBinarySecret)
+		config = decodedBinarySecret
+
 	}
+	return config
 
 }
 
-func main() {
-
-	getSecret()
-}
+// func main() {
+// 	getSecret()
+// }
