@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"os"
 
@@ -10,6 +11,12 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/secretsmanager"
 )
+
+var DBhost string
+var DBport string
+var DBuser string
+var DBpass string
+var DBname string
 
 func getConfig() string {
 	secretName := "gorestapiconfig"
@@ -80,6 +87,42 @@ func getConfig() string {
 
 }
 
-// func main() {
-// 	getSecret()
-// }
+func LoadConfig() {
+	config := getConfig()
+	configMap := make(map[string]interface{})
+
+	err := json.Unmarshal([]byte(config), &configMap)
+	if err != nil {
+		panic(err)
+	}
+	if host, ok := Find(configMap, "host"); ok {
+		switch v := host.(type) {
+		case string:
+			DBhost = v
+		}
+	}
+	if port, ok := Find(configMap, "port"); ok {
+		switch v := port.(type) {
+		case string:
+			DBport = v
+		}
+	}
+	if username, ok := Find(configMap, "username"); ok {
+		switch v := username.(type) {
+		case string:
+			DBuser = v
+		}
+	}
+	if password, ok := Find(configMap, "password"); ok {
+		switch v := password.(type) {
+		case string:
+			DBpass = v
+		}
+	}
+	if databasename, ok := Find(configMap, "databasename"); ok {
+		switch v := databasename.(type) {
+		case string:
+			DBname = v
+		}
+	}
+}
