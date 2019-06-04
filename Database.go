@@ -44,7 +44,7 @@ func insert() {
 
 func selectQ() {
 
-	appConfig := &Config{}git pu
+	appConfig := &Config{}
 	if rawData, err := gonfig.Read(); err != nil {
 		panic(err)
 	} else {
