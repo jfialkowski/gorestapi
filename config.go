@@ -8,7 +8,6 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/awserr"
-	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/secretsmanager"
 )
@@ -29,16 +28,23 @@ func getKeys() (string, string) {
 
 func getConfig() string {
 	keyId, secretAccessKey := getKeys()
+	fmt.Println(" Keys Are: " + keyId + " " + secretAccessKey)
 	secretName := "gorestapiconfig"
 	config := ""
 	//region := "us-east-1"
 
 	//Create a Secrets Manager client
 	//svc := secretsmanager.New(session.New())
-	sess, err := session.NewSessionWithOptions(session.Options{
-		Config:  aws.Config{Region: aws.String("us-east-2"), Credentials: credentials.NewStaticCredentials(keyId, secretAccessKey, "")},
-		Profile: "profile_name",
-	})
+	sess, err := session.NewSession()
+	// _, err := sess.Config.Credentials.Get()
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	//sess, err := session.NewSessionWithOptions(session.Options{
+	//	Config:  aws.Config{Region: aws.String("us-east-2"), Credentials: credentials.NewStaticCredentials(keyId, secretAccessKey, "")},
+	//	Profile: "profile_name",
+	//})
 	svc := secretsmanager.New(sess)
 	input := &secretsmanager.GetSecretValueInput{
 		SecretId:     aws.String(secretName),
