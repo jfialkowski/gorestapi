@@ -29,7 +29,6 @@ func getKeys() (string, string) {
 
 func getConfig() string {
 	keyId, secretAccessKey := getKeys()
-	fmt.Println(" Keys Are: " + keyId + " " + secretAccessKey)
 	secretName := "gorestapiconfig"
 	config := ""
 	//region := "us-east-1"
@@ -113,7 +112,6 @@ func getConfig() string {
 
 func LoadConfig() {
 	config := getConfig()
-	fmt.Println("Config is : " + config)
 	configMap := make(map[string]interface{})
 
 	err := json.Unmarshal([]byte(config), &configMap)
