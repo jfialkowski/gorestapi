@@ -8,6 +8,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+//ConnectDB connects to a DB
 func ConnectDB(username string, password string, host string, port string, dbname string) {
 	db, err := sql.Open("mysql", username+":"+password+"@tcp("+host+":"+port+")/"+dbname+"?tls=skip-verify&autocommit=true")
 	if err != nil {
@@ -29,7 +30,8 @@ func insert() {
 
 }
 
-func SelectQ() {
+//SelectAllEmployees selects all employees from table and prints them for now. Should turn into a JSON String or something
+func SelectAllEmployees() {
 
 	var (
 		firstname  string

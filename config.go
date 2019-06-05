@@ -13,22 +13,31 @@ import (
 	"github.com/aws/aws-sdk-go/service/secretsmanager"
 )
 
+//DBhost variable
 var DBhost string
+
+//DBport variable
 var DBport string
+
+//DBuser variable
 var DBuser string
+
+//DBpass variable
 var DBpass string
+
+//DBname variable
 var DBname string
 
 func getKeys() (string, string) {
 
-	keyId := os.Getenv("AWS_ACCESS_KEY_ID")
+	keyID := os.Getenv("AWS_ACCESS_KEY_ID")
 	secretAccessKey := os.Getenv("AWS_SECRET_ACCESS_KEY")
 
-	return keyId, secretAccessKey
+	return keyID, secretAccessKey
 }
 
 func getConfig() string {
-	keyId, secretAccessKey := getKeys()
+	keyID, secretAccessKey := getKeys()
 	secretName := "gorestapiconfig"
 	config := ""
 	//region := "us-east-1"
@@ -37,7 +46,7 @@ func getConfig() string {
 	//svc := secretsmanager.New(session.New())
 	sess, err := session.NewSession(&aws.Config{
 		Region:      aws.String("us-east-1"),
-		Credentials: credentials.NewStaticCredentials(keyId, secretAccessKey, ""),
+		Credentials: credentials.NewStaticCredentials(keyID, secretAccessKey, ""),
 	})
 	// _, err := sess.Config.Credentials.Get()
 	if err != nil {
@@ -110,6 +119,7 @@ func getConfig() string {
 
 }
 
+//LoadConfig loads up the config fetched from get config
 func LoadConfig() {
 	config := getConfig()
 	configMap := make(map[string]interface{})
