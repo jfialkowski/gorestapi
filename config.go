@@ -8,6 +8,7 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/awserr"
+	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/secretsmanager"
 )
@@ -35,7 +36,10 @@ func getConfig() string {
 
 	//Create a Secrets Manager client
 	//svc := secretsmanager.New(session.New())
-	sess, err := session.NewSession()
+	sess, err := session.NewSession(&aws.Config{
+		Region:      aws.String("us-east-1"),
+		Credentials: credentials.NewStaticCredentials(keyId, secretAccessKey, ""),
+	})
 	// _, err := sess.Config.Credentials.Get()
 	if err != nil {
 		fmt.Println(err)
