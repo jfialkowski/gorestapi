@@ -89,6 +89,7 @@ func getConfig() string {
 
 func LoadConfig() {
 	config := getConfig()
+	fmt.Println("Config is : " + config)
 	configMap := make(map[string]interface{})
 
 	err := json.Unmarshal([]byte(config), &configMap)
