@@ -1,5 +1,6 @@
 package main
 
+//Find parses through a JSON map and returns the value + true if found, else it reurns nil and false
 func Find(obj interface{}, key string) (interface{}, bool) {
 	//if the argument is not a map, ignore it
 	mobj, ok := obj.(map[string]interface{})
