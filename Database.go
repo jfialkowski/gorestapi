@@ -29,7 +29,7 @@ func insert() {
 
 }
 
-func selectQ() {
+func SelectQ() {
 
 	var (
 		firstname  string
@@ -37,11 +37,6 @@ func selectQ() {
 		title      string
 		department string
 	)
-	fmt.Println("Host: " + DBhost)
-	fmt.Println("Port: " + DBport)
-	fmt.Println("User: " + DBuser)
-	fmt.Println("Pass: " + DBpass)
-	fmt.Println("Name: " + DBname)
 
 	db, err := sql.Open("mysql", DBuser+":"+DBpass+"@tcp("+DBhost+":"+DBport+")/"+DBname+"?tls=skip-verify&autocommit=true")
 	if err != nil {
@@ -66,9 +61,3 @@ func selectQ() {
 func delete() {
 
 }
-
-//func main() {
-
-//	selectQ()
-
-//}
