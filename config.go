@@ -28,6 +28,7 @@ var DBpass string
 //DBname variable
 var DBname string
 
+//Gets AWS Credentials from ENV
 func getKeys() (string, string) {
 
 	keyID := os.Getenv("AWS_ACCESS_KEY_ID")
@@ -36,6 +37,7 @@ func getKeys() (string, string) {
 	return keyID, secretAccessKey
 }
 
+//Gets the config JSON from AWS secretsmanager and returns it as a string
 func getConfig() string {
 	keyID, secretAccessKey := getKeys()
 	secretName := "gorestapiconfig"
@@ -43,20 +45,16 @@ func getConfig() string {
 	//region := "us-east-1"
 
 	//Create a Secrets Manager client
-	//svc := secretsmanager.New(session.New())
+
 	sess, err := session.NewSession(&aws.Config{
 		Region:      aws.String("us-east-1"),
 		Credentials: credentials.NewStaticCredentials(keyID, secretAccessKey, ""),
 	})
-	// _, err := sess.Config.Credentials.Get()
+
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	//sess, err := session.NewSessionWithOptions(session.Options{
-	//	Config:  aws.Config{Region: aws.String("us-east-2"), Credentials: credentials.NewStaticCredentials(keyId, secretAccessKey, "")},
-	//	Profile: "profile_name",
-	//})
 	svc := secretsmanager.New(sess)
 	input := &secretsmanager.GetSecretValueInput{
 		SecretId:     aws.String(secretName),
@@ -119,7 +117,7 @@ func getConfig() string {
 
 }
 
-//LoadConfig loads up the config fetched from get config
+//LoadConfig parses the JSON config fetched from getConfig and sets the variables the app needs to function.
 func LoadConfig() {
 	config := getConfig()
 	configMap := make(map[string]interface{})
