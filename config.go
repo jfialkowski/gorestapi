@@ -117,7 +117,7 @@ func getConfig() string {
 
 }
 
-//LoadConfig parses the JSON config fetched from getConfig and sets the variables the app needs to function.
+//LoadConfig parses the JSON config fetched from getConfig and sets the variables the app needs to function
 func LoadConfig() {
 	config := getConfig()
 	configMap := make(map[string]interface{})
