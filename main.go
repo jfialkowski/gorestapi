@@ -4,6 +4,7 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"encoding/pem"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -24,12 +25,14 @@ func main() {
 	// Setup TLS
 	b := []byte(TLSKey)
 	b = append([]byte(TLSCert))
+	fmt.Println("B is: " + string(b))
 	var v *pem.Block
 	var pkey []byte
 	var pemBlocks []*pem.Block
 	for {
 		v, b = pem.Decode(b)
 		if v == nil {
+			fmt.Println("v is nil")
 			break
 		}
 		if v.Type == "RSA PRIVATE KEY" {
@@ -39,6 +42,7 @@ func main() {
 					Type:  v.Type,
 					Bytes: pkey,
 				})
+				//fmt.Println("V is: " + v)
 			} else {
 				pkey = pem.EncodeToMemory(v)
 			}
@@ -46,6 +50,7 @@ func main() {
 			pemBlocks = append(pemBlocks, v)
 		}
 	}
+
 	//Encode Combined and decrypted key to memory
 	c, _ := tls.X509KeyPair(pem.EncodeToMemory(pemBlocks[0]), pkey)
 	// Construct a tls.config
