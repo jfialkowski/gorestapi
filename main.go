@@ -24,8 +24,9 @@ func main() {
 
 	// Setup TLS
 	b := []byte(TLSKey)
+	fmt.Println("B before append is: " + string(b))
 	b = append([]byte(TLSCert))
-	fmt.Println("B is: " + string(b))
+	fmt.Println("B after append is: " + string(b))
 	var v *pem.Block
 	var pkey []byte
 	var pemBlocks []*pem.Block
