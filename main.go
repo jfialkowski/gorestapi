@@ -12,9 +12,15 @@ import (
 func main() {
 
 	os.Setenv("AWS_SDK_LOAD_CONFIG", "true")
+
 	router := NewRouter()
+
+	//LoadConfig does just that, load your config
 	LoadConfig()
+
+	//ConnectDB connects to Database
 	ConnectDB(DBuser, DBpass, DBhost, DBport, DBname)
+
 	// Setup TLS
 	b := []byte(TLSKey)
 	b = append([]byte(TLSCert))
@@ -40,11 +46,11 @@ func main() {
 			pemBlocks = append(pemBlocks, v)
 		}
 	}
-	//Encode COmbined and decrypted key to memory
+	//Encode Combined and decrypted key to memory
 	c, _ := tls.X509KeyPair(pem.EncodeToMemory(pemBlocks[0]), pkey)
 	// Construct a tls.config
 	cfg := &tls.Config{
-		MinVersion:               tls.VersionTLS12,
+		MinVersion:               tls.VersionTLS11,
 		CurvePreferences:         []tls.CurveID{tls.CurveP521, tls.CurveP384, tls.CurveP256},
 		PreferServerCipherSuites: true,
 		CipherSuites: []uint16{
@@ -52,6 +58,7 @@ func main() {
 			tls.TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,
 			tls.TLS_RSA_WITH_AES_256_GCM_SHA384,
 			tls.TLS_RSA_WITH_AES_256_CBC_SHA,
+			tls.TLS_AES_256_GCM_SHA384,
 		},
 		Certificates: []tls.Certificate{c},
 	}
