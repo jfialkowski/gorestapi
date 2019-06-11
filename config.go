@@ -28,6 +28,12 @@ var DBpass string
 //DBname variable
 var DBname string
 
+var TLSCert string
+
+var TLSKey string
+
+var TLSPass string
+
 //Gets AWS Credentials from ENV
 func getKeys() (string, string) {
 
@@ -154,6 +160,24 @@ func LoadConfig() {
 		switch v := databasename.(type) {
 		case string:
 			DBname = v
+		}
+	}
+	if certificate, ok := Find(configMap, "certificate"); ok {
+		switch v := certificate.(type) {
+		case string:
+			TLSCert = v
+		}
+	}
+	if key, ok := Find(configMap, "key"); ok {
+		switch v := key.(type) {
+		case string:
+			TLSKey = v
+		}
+	}
+	if passphrase, ok := Find(configMap, "passphrase"); ok {
+		switch v := passphrase.(type) {
+		case string:
+			TLSPass = v
 		}
 	}
 }
