@@ -50,7 +50,7 @@ func main() {
 	c, _ := tls.X509KeyPair(pem.EncodeToMemory(pemBlocks[0]), pkey)
 	// Construct a tls.config
 	cfg := &tls.Config{
-		MinVersion:               tls.VersionTLS12,
+		//MinVersion:               tls.VersionTLS12,
 		CurvePreferences:         []tls.CurveID{tls.CurveP521, tls.CurveP384, tls.CurveP256},
 		PreferServerCipherSuites: true,
 		CipherSuites: []uint16{
