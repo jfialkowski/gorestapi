@@ -28,9 +28,9 @@ var DBpass string
 //DBname variable
 var DBname string
 
-var TLSCert string
+var TLSCert []byte
 
-var TLSKey string
+var TLSKey []byte
 
 var TLSPass string
 
@@ -164,13 +164,19 @@ func LoadConfig() {
 	}
 	if certificate, ok := Find(configMap, "certificate"); ok {
 		switch v := certificate.(type) {
-		case string:
-			TLSCert = v
+		// case string:
+		// 	TLSCert = v
+		// }
+		case []byte:
+			TLSKey = v
 		}
 	}
 	if key, ok := Find(configMap, "key"); ok {
 		switch v := key.(type) {
-		case string:
+		//case string:
+		//	TLSKey = v
+		//}
+		case []byte:
 			TLSKey = v
 		}
 	}

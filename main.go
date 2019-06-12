@@ -23,10 +23,11 @@ func main() {
 	ConnectDB(DBuser, DBpass, DBhost, DBport, DBname)
 
 	// Setup TLS
-	k := []byte(TLSKey)
-	crt := []byte(TLSCert)
+	// k := []byte(TLSKey)
+	// crt := []byte(TLSCert)
+
 	//fmt.Println("B before append is: " + string(b))
-	b := append(k, crt...)
+	b := append(TLSKey, TLSCert...)
 	//b := k
 	fmt.Println("B after append is: " + string(b))
 	var v *pem.Block
