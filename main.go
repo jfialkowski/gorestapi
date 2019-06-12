@@ -58,6 +58,7 @@ func main() {
 	// }
 	var pkey []byte
 	encpkey, rest := pem.Decode(TLSKey)
+	fmt.Println(rest)
 	if encpkey == nil || encpkey.Type != "PUBLIC KEY" {
 		log.Fatal("failed to decode PEM block containing public key")
 	} else {
