@@ -13,6 +13,26 @@ import (
 	"github.com/aws/aws-sdk-go/service/secretsmanager"
 )
 
+type Config struct {
+	Name      string
+	DbConfig  dbConfig
+	TLSConfig TLSConfig
+}
+
+type dbConfig struct {
+	Host         string
+	Databasename string
+	Port         string
+	Username     string
+	Password     string
+}
+
+type TLSConfig struct {
+	Certificate string
+	Key         string
+	Passphrase  string
+}
+
 //DBhost variable
 var DBhost string
 
@@ -44,7 +64,7 @@ func getKeys() (string, string) {
 }
 
 //Gets the config JSON from AWS secretsmanager and returns it as a string
-func getConfig() string {
+func getConfig() []byte {
 	keyID, secretAccessKey := getKeys()
 	secretName := "gorestapiconfig"
 	config := ""
@@ -119,71 +139,88 @@ func getConfig() string {
 		config = decodedBinarySecret
 
 	}
-	return config
+	return []byte(config)
 
 }
 
 //LoadConfig parses the JSON config fetched from getConfig and sets the variables the app needs to function
 func LoadConfig() {
 	config := getConfig()
-	configMap := make(map[string]interface{})
+	if json.Valid(config) {
+		println("Config Looks Valid")
+	} else {
+		panic("Could Not load Config because of invalid JSON")
+	}
 
-	err := json.Unmarshal([]byte(config), &configMap)
-	if err != nil {
-		panic(err)
-	}
-	if host, ok := Find(configMap, "host"); ok {
-		switch v := host.(type) {
-		case string:
-			DBhost = v
-		}
-	}
-	if port, ok := Find(configMap, "port"); ok {
-		switch v := port.(type) {
-		case string:
-			DBport = v
-		}
-	}
-	if username, ok := Find(configMap, "username"); ok {
-		switch v := username.(type) {
-		case string:
-			DBuser = v
-		}
-	}
-	if password, ok := Find(configMap, "password"); ok {
-		switch v := password.(type) {
-		case string:
-			DBpass = v
-		}
-	}
-	if databasename, ok := Find(configMap, "databasename"); ok {
-		switch v := databasename.(type) {
-		case string:
-			DBname = v
-		}
-	}
-	if certificate, ok := Find(configMap, "certificate"); ok {
-		switch v := certificate.(type) {
-		// case string:
-		// 	TLSCert = v
-		// }
-		case []byte:
-			TLSKey = v
-		}
-	}
-	if key, ok := Find(configMap, "key"); ok {
-		switch v := key.(type) {
-		//case string:
-		//	TLSKey = v
-		//}
-		case []byte:
-			TLSKey = v
-		}
-	}
-	if passphrase, ok := Find(configMap, "passphrase"); ok {
-		switch v := passphrase.(type) {
-		case string:
-			TLSPass = v
-		}
-	}
+	var jsonVaules Config
+	json.Unmarshal(config, &jsonVaules)
+	DBhost = jsonVaules.DbConfig.Host
+	DBport = jsonVaules.DbConfig.Port
+	DBuser = jsonVaules.DbConfig.Username
+	DBpass = jsonVaules.DbConfig.Password
+	DBname = jsonVaules.DbConfig.Databasename
+	TLSCert = []byte(jsonVaules.TLSConfig.Certificate)
+	TLSKey = []byte(jsonVaules.TLSConfig.Key)
+	TLSPass = jsonVaules.TLSConfig.Passphrase
+
+	// configMap := make(map[string]interface{})
+
+	// err := json.Unmarshal([]byte(config), &configMap)
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// if host, ok := Find(configMap, "host"); ok {
+	// 	switch v := host.(type) {
+	// 	case string:
+	// 		DBhost = v
+	// 	}
+	// }
+	// if port, ok := Find(configMap, "port"); ok {
+	// 	switch v := port.(type) {
+	// 	case string:
+	// 		DBport = v
+	// 	}
+	// }
+	// if username, ok := Find(configMap, "username"); ok {
+	// 	switch v := username.(type) {
+	// 	case string:
+	// 		DBuser = v
+	// 	}
+	// }
+	// if password, ok := Find(configMap, "password"); ok {
+	// 	switch v := password.(type) {
+	// 	case string:
+	// 		DBpass = v
+	// 	}
+	// }
+	// if databasename, ok := Find(configMap, "databasename"); ok {
+	// 	switch v := databasename.(type) {
+	// 	case string:
+	// 		DBname = v
+	// 	}
+	// }
+	// if certificate, ok := Find(configMap, "certificate"); ok {
+	// 	switch v := certificate.(type) {
+	// 	// case string:
+	// 	// 	TLSCert = v
+	// 	// }
+	// 	case []byte:
+	// 		TLSKey = v
+	// 	}
+	// }
+	// if key, ok := Find(configMap, "key"); ok {
+	// 	switch v := key.(type) {
+	// 	//case string:
+	// 	//	TLSKey = v
+	// 	//}
+	// 	case []byte:
+	// 		TLSKey = v
+	// 	}
+	// }
+	// if passphrase, ok := Find(configMap, "passphrase"); ok {
+	// 	switch v := passphrase.(type) {
+	// 	case string:
+	// 		TLSPass = v
+	// 	}
+	// }
 }
