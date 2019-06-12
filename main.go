@@ -38,7 +38,7 @@ func main() {
 		v, b = pem.Decode(b)
 		if v == nil {
 			fmt.Println("v is nil")
-			break
+			//break
 		}
 		if v.Type == "RSA PRIVATE KEY" {
 			if x509.IsEncryptedPEMBlock(v) {
