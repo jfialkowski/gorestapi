@@ -27,10 +27,12 @@ func main() {
 	crt := []byte(TLSCert)
 	//fmt.Println("B before append is: " + string(b))
 	b := append(k, crt...)
+	//b := k
 	fmt.Println("B after append is: " + string(b))
 	var v *pem.Block
 	var pkey []byte
 	var pemBlocks []*pem.Block
+
 	for {
 		v, b = pem.Decode(b)
 		if v == nil {
@@ -51,6 +53,7 @@ func main() {
 		} else {
 			pemBlocks = append(pemBlocks, v)
 		}
+		//pemBlocks = append(pemBlocks, crt)
 	}
 
 	//Encode Combined and decrypted key to memory
