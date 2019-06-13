@@ -4,7 +4,6 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"encoding/pem"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -21,24 +20,15 @@ func main() {
 
 	//ConnectDB connects to Database
 	ConnectDB(DBuser, DBpass, DBhost, DBport, DBname)
-
-	// Setup TLS
-	//k := TLSKey)
-	//crt := []byte(TLSCert)
-
-	//fmt.Println("B before append is: " + string(b))
-	b := append(TLSKey, TLSCert...)
-	//b := k
-	fmt.Println("B after append is: " + string(b))
+	b := append(TLSCert, TLSKey...)
+	var pemBlocks []*pem.Block
 	var v *pem.Block
 	var pkey []byte
-	var pemBlocks []*pem.Block
 
 	for {
 		v, b = pem.Decode(b)
 		if v == nil {
-			fmt.Println("v is nil")
-			//break
+			break
 		}
 		if v.Type == "RSA PRIVATE KEY" {
 			if x509.IsEncryptedPEMBlock(v) {
@@ -47,33 +37,15 @@ func main() {
 					Type:  v.Type,
 					Bytes: pkey,
 				})
-				//fmt.Println("V is: " + v)
 			} else {
 				pkey = pem.EncodeToMemory(v)
 			}
 		} else {
 			pemBlocks = append(pemBlocks, v)
 		}
-		//pemBlocks = append(pemBlocks, crt)
 	}
-	//var pkey []byte
-	//encpkey, rest := pem.Decode(TLSKey)
-
-	// if encpkey == nil {
-	// 	log.Fatal("failed to decode PEM block containing public key")
-	// } else {
-	//fmt.Println(rest)
-	//pkey, _ = x509.DecryptPEMBlock(encpkey, []byte(TLSPass))
-
-	// }
-	// cert, rest := pem.Decode(TLSCert)
-	// if cert == nil {
-	// 	log.Fatal("failed to decode PEM block containing public key")
-	// }
-
 	//Encode Combined and decrypted key to memory
 	c, _ := tls.X509KeyPair(pem.EncodeToMemory(pemBlocks[0]), pkey)
-	//c, err := tls.X509KeyPair(TLSCert, pkey)
 
 	// Construct a tls.config
 	cfg := &tls.Config{
