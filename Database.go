@@ -8,6 +8,10 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+var (
+	DBCon *sql.DB
+)
+
 //ConnectDB connects to a DB
 func ConnectDB(username string, password string, host string, port string, dbname string) {
 	db, err := sql.Open("mysql", username+":"+password+"@tcp("+host+":"+port+")/"+dbname+"?tls=skip-verify&autocommit=true")
