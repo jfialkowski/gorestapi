@@ -2,8 +2,8 @@ package main
 
 import (
 	"crypto/tls"
-	"crypto/x509"
 	"encoding/pem"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -20,32 +20,36 @@ func main() {
 
 	//ConnectDB connects to Database
 	ConnectDB(DBuser, DBpass, DBhost, DBport, DBname)
-	b := append(TLSCert, TLSKey...)
+	//b := append(TLSCert, TLSKey...)
+	b := TLSKey
 	var pemBlocks []*pem.Block
 	var v *pem.Block
-	var pkey []byte
+	//var pkey []byte
 
 	for {
 		v, b = pem.Decode(b)
+		fmt.Printf("V is %v \n", v)
 		if v == nil {
 			break
 		}
 		if v.Type == "RSA PRIVATE KEY" {
-			if x509.IsEncryptedPEMBlock(v) {
-				pkey, _ = x509.DecryptPEMBlock(v, []byte(TLSPass))
-				pkey = pem.EncodeToMemory(&pem.Block{
-					Type:  v.Type,
-					Bytes: pkey,
-				})
-			} else {
-				pkey = pem.EncodeToMemory(v)
-			}
+			fmt.Println("found private key")
+			// if x509.IsEncryptedPEMBlock(v) {
+			// 	pkey, _ = x509.DecryptPEMBlock(v, []byte(TLSPass))
+			// 	pkey = pem.EncodeToMemory(&pem.Block{
+			// 		Type:  v.Type,
+			// 		Bytes: pkey,
+			// 	})
+			// } else {
+			// 	fmt.Println("Encoded to memory")
+			// 	pkey = pem.EncodeToMemory(v)
+			// }
 		} else {
 			pemBlocks = append(pemBlocks, v)
 		}
 	}
 	//Encode Combined and decrypted key to memory
-	c, _ := tls.X509KeyPair(pem.EncodeToMemory(pemBlocks[0]), pkey)
+	c, _ := tls.X509KeyPair(pem.EncodeToMemory(pemBlocks[0]), TLSCert)
 
 	// Construct a tls.config
 	cfg := &tls.Config{
