@@ -23,50 +23,47 @@ func main() {
 	ConnectDB(DBuser, DBpass, DBhost, DBport, DBname)
 
 	// Setup TLS
-	// k := []byte(TLSKey)
-	// crt := []byte(TLSCert)
+	//k := TLSKey)
+	//crt := []byte(TLSCert)
 
 	//fmt.Println("B before append is: " + string(b))
-	// b := append(TLSKey, TLSCert...)
-	// //b := k
-	// fmt.Println("B after append is: " + string(b))
-	// var v *pem.Block
-	// var pkey []byte
-	// var pemBlocks []*pem.Block
-
-	// for {
-	// 	v, b = pem.Decode(b)
-	// 	if v == nil {
-	// 		fmt.Println("v is nil")
-	// 		//break
-	// 	}
-	// 	if v.Type == "RSA PRIVATE KEY" {
-	// 		if x509.IsEncryptedPEMBlock(v) {
-	// 			pkey, _ = x509.DecryptPEMBlock(v, []byte(TLSPass))
-	// 			pkey = pem.EncodeToMemory(&pem.Block{
-	// 				Type:  v.Type,
-	// 				Bytes: pkey,
-	// 			})
-	// 			//fmt.Println("V is: " + v)
-	// 		} else {
-	// 			pkey = pem.EncodeToMemory(v)
-	// 		}
-	// 	} else {
-	// 		pemBlocks = append(pemBlocks, v)
-	// 	}
-	// 	//pemBlocks = append(pemBlocks, crt)
-	// }
-	fmt.Println("This should really print something1")
+	b := append(TLSKey, TLSCert...)
+	//b := k
+	fmt.Println("B after append is: " + string(b))
+	var v *pem.Block
 	var pkey []byte
-	encpkey, rest := pem.Decode(TLSKey)
-	fmt.Printf("Got a %T, with remaining data: %q", encpkey, rest)
-	fmt.Printf("This should really print something")
+	var pemBlocks []*pem.Block
+
+	for {
+		v, b = pem.Decode(b)
+		if v == nil {
+			fmt.Println("v is nil")
+			//break
+		}
+		if v.Type == "RSA PRIVATE KEY" {
+			if x509.IsEncryptedPEMBlock(v) {
+				pkey, _ = x509.DecryptPEMBlock(v, []byte(TLSPass))
+				pkey = pem.EncodeToMemory(&pem.Block{
+					Type:  v.Type,
+					Bytes: pkey,
+				})
+				//fmt.Println("V is: " + v)
+			} else {
+				pkey = pem.EncodeToMemory(v)
+			}
+		} else {
+			pemBlocks = append(pemBlocks, v)
+		}
+		//pemBlocks = append(pemBlocks, crt)
+	}
+	//var pkey []byte
+	//encpkey, rest := pem.Decode(TLSKey)
 
 	// if encpkey == nil {
 	// 	log.Fatal("failed to decode PEM block containing public key")
 	// } else {
-	fmt.Println(rest)
-	pkey, _ = x509.DecryptPEMBlock(encpkey, []byte(TLSPass))
+	//fmt.Println(rest)
+	//pkey, _ = x509.DecryptPEMBlock(encpkey, []byte(TLSPass))
 
 	// }
 	// cert, rest := pem.Decode(TLSCert)
@@ -75,11 +72,9 @@ func main() {
 	// }
 
 	//Encode Combined and decrypted key to memory
-	//c, _ := tls.X509KeyPair(pem.EncodeToMemory(pemBlocks[0]), pkey)
-	c, err := tls.X509KeyPair(TLSCert, pkey)
-	if err != nil {
-		log.Fatal(err)
-	}
+	c, _ := tls.X509KeyPair(pem.EncodeToMemory(pemBlocks[0]), pkey)
+	//c, err := tls.X509KeyPair(TLSCert, pkey)
+
 	// Construct a tls.config
 	cfg := &tls.Config{
 		MinVersion:               tls.VersionTLS12,
