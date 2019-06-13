@@ -56,6 +56,7 @@ func main() {
 	// 	}
 	// 	//pemBlocks = append(pemBlocks, crt)
 	// }
+	fmt.Printf("This should really print something1")
 	var pkey []byte
 	encpkey, rest := pem.Decode(TLSKey)
 	fmt.Printf("Got a %T, with remaining data: %q", encpkey, rest)
