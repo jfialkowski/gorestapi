@@ -20,19 +20,17 @@ func main() {
 
 	//ConnectDB connects to Database
 	ConnectDB(DBuser, DBpass, DBhost, DBport, DBname)
-	//b := append(TLSCert, TLSKey...)
-	b := TLSKey
 	var pemBlocks []*pem.Block
 	var v *pem.Block
-	//var pkey []byte
+	var b []byte
 
 	for {
-		v, b = pem.Decode(b)
+		v, b = pem.Decode(TLSKey)
 		fmt.Printf("V is %v \n", v)
 		if v == nil {
 			break
 		}
-		if v.Type == "RSA PRIVATE KEY" {
+		if v.Type == "PRIVATE KEY" {
 			fmt.Println("found private key")
 			// if x509.IsEncryptedPEMBlock(v) {
 			// 	pkey, _ = x509.DecryptPEMBlock(v, []byte(TLSPass))
@@ -45,10 +43,12 @@ func main() {
 			// 	pkey = pem.EncodeToMemory(v)
 			// }
 		} else {
+			fmt.Printf("found %v in rest \n ", b)
 			pemBlocks = append(pemBlocks, v)
 		}
 	}
 	//Encode Combined and decrypted key to memory
+
 	c, _ := tls.X509KeyPair(pem.EncodeToMemory(pemBlocks[0]), TLSCert)
 
 	// Construct a tls.config
