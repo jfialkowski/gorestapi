@@ -62,7 +62,7 @@ func main() {
 	fmt.Printf("Got a %T, with remaining data: %q", encpkey, rest)
 	fmt.Printf("This should really print something")
 
-	if encpkey == nil || encpkey.Type != "PUBLIC KEY" {
+	if encpkey == nil {
 		log.Fatal("failed to decode PEM block containing public key")
 	} else {
 		fmt.Println(rest)
