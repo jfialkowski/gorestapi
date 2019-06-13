@@ -51,7 +51,7 @@ func main() {
 	}
 	//Encode Combined and decrypted key to memory
 
-	c, _ := tls.X509KeyPair(pem.EncodeToMemory(pemBlocks[0]), TLSCert)
+	c, _ := tls.X509KeyPair(pem.EncodeToMemory(pemBlocks[0]), pkey)
 
 	// Construct a tls.config
 	cfg := &tls.Config{
