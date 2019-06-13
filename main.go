@@ -2,6 +2,7 @@ package main
 
 import (
 	"crypto/tls"
+	"crypto/x509"
 	"encoding/pem"
 	"fmt"
 	"log"
@@ -22,8 +23,9 @@ func main() {
 	ConnectDB(DBuser, DBpass, DBhost, DBport, DBname)
 	var pemBlocks []*pem.Block
 	var v *pem.Block
+	var pkey []byte
 	var b []byte
-
+	fmt.Printf("TLSKey is %v \n", TLSKey)
 	for {
 		v, b = pem.Decode(TLSKey)
 		fmt.Printf("V is %v \n", v)
@@ -32,16 +34,16 @@ func main() {
 		}
 		if v.Type == "PRIVATE KEY" {
 			fmt.Println("found private key")
-			// if x509.IsEncryptedPEMBlock(v) {
-			// 	pkey, _ = x509.DecryptPEMBlock(v, []byte(TLSPass))
-			// 	pkey = pem.EncodeToMemory(&pem.Block{
-			// 		Type:  v.Type,
-			// 		Bytes: pkey,
-			// 	})
-			// } else {
-			// 	fmt.Println("Encoded to memory")
-			// 	pkey = pem.EncodeToMemory(v)
-			// }
+			if x509.IsEncryptedPEMBlock(v) {
+				pkey, _ = x509.DecryptPEMBlock(v, []byte(TLSPass))
+				pkey = pem.EncodeToMemory(&pem.Block{
+					Type:  v.Type,
+					Bytes: pkey,
+				})
+			} else {
+				fmt.Println("Encoded to memory")
+				pkey = pem.EncodeToMemory(v)
+			}
 		} else {
 			fmt.Printf("found %v in rest \n ", b)
 			pemBlocks = append(pemBlocks, v)
