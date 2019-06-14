@@ -40,7 +40,7 @@ func NewServer() http.Server {
 				Bytes: pkey,
 			})
 		} else {
-			fmt.Println("Encoded to memory")
+			//fmt.Println("Encoded to memory")
 			pkey = pem.EncodeToMemory(v)
 		}
 	} else {
@@ -84,5 +84,6 @@ func NewServer() http.Server {
 		Addr:         ":9999",
 		TLSNextProto: make(map[string]func(*http.Server, *tls.Conn, http.Handler), 0),
 	}
+	log.Println("TLS Enabled WebServer Started")
 	return server
 }
