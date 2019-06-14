@@ -1,4 +1,4 @@
-package models
+package main
 
 import (
 	"database/sql"
@@ -7,13 +7,9 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-type DB struct {
-	db *sql.DB
-}
-
 //ConnectDB connects to a DB
-func ConnectDB(username string, password string, host string, port string, dbname string) (*sql.DB, error) {
-	db, err := sql.Open("mysql", username+":"+password+"@tcp("+host+":"+port+")/"+dbname+"?tls=skip-verify&autocommit=true")
+func ConnectDB() (*sql.DB, error) {
+	db, err := sql.Open("mysql", DBuser+":"+DBpass+"@tcp("+DBhost+":"+DBport+")/"+DBname+"?tls=skip-verify&autocommit=true")
 	if err != nil {
 		return nil, err
 	}

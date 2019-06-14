@@ -4,6 +4,10 @@ import (
 	"net/http"
 )
 
+type myEnv struct {
+	*Env
+}
+
 //Route struct for routing http requests.
 type Route struct {
 	Name        string

@@ -1,14 +1,16 @@
 package main
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"gorestapi/models"
+	"log"
 	"net/http"
 )
 
-type myEnv struct {
-	*models.Env
+type Env struct {
+	db *sql.DB
 }
 
 func home(w http.ResponseWriter, r *http.Request) {
@@ -16,15 +18,23 @@ func home(w http.ResponseWriter, r *http.Request) {
 }
 
 // EmployeesIndex returns all employees
-func (env myEnv) EmployeesIndex(w http.ResponseWriter, r *http.Request) {
+func EmployeesIndex(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		http.Error(w, http.StatusText(405), 405)
 		return
 	}
-	employees, err := models.SelectAllEmployees(*models.DB)
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	if err := json.NewEncoder(w).Encode(employees); err != nil {
-		panic(err)
+	db, err := ConnectDB()
+	if err != nil {
+		log.Fatal(err)
+	} else {
+		employees, err := models.SelectAllEmployees(db)
+		if err != nil {
+			log.Fatal(err)
+		}
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(http.StatusOK)
+		if err := json.NewEncoder(w).Encode(employees); err != nil {
+			panic(err)
+		}
 	}
 }
