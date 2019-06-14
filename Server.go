@@ -82,7 +82,7 @@ func NewServer() *http.Server {
 		// Other options
 		TLSConfig:    cfg,
 		Handler:      router,
-		Addr:         ":9999",
+		Addr:         ":" + ServerPort,
 		TLSNextProto: make(map[string]func(*http.Server, *tls.Conn, http.Handler), 0),
 	}
 	log.Println("TLS Enabled WebServer Started")

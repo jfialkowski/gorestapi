@@ -35,6 +35,7 @@ type TLSConfig struct {
 	Certificate string
 	Key         string
 	Passphrase  string
+	ServerPort  string
 }
 
 //DBhost variable
@@ -60,6 +61,9 @@ var TLSKey []byte
 
 //TLSPass is the password to key if found, nil otherwise.
 var TLSPass string
+
+//ServerPort is the port you want the app to run on
+var ServerPort string
 
 //Gets AWS Credentials from ENV
 func getKeys() (string, string) {
@@ -171,5 +175,6 @@ func LoadConfig() {
 	TLSCert = []byte(jsonVaules.TLSConfig.Certificate)
 	TLSKey = []byte(jsonVaules.TLSConfig.Key)
 	TLSPass = jsonVaules.TLSConfig.Passphrase
+	ServerPort = jsonVaules.TLSConfig.ServerPort
 
 }
