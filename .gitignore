@@ -1,3 +1,4 @@
 #config/config.json
+.gitignore
 Database
 gorestapi
