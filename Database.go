@@ -2,14 +2,9 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 
 	_ "github.com/go-sql-driver/mysql"
-)
-
-var (
-	DBCon *sql.DB
 )
 
 //ConnectDB connects to a DB
@@ -25,7 +20,7 @@ func ConnectDB(username string, password string, host string, port string, dbnam
 	if err != nil {
 		panic(err.Error()) // proper error handling instead of panic in your app
 	} else {
-		fmt.Println("Ping: " + host + ":" + port + " SUCESS!")
+		log.Println("Connected to Database")
 	}
 
 }

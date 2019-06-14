@@ -4,6 +4,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -13,12 +14,14 @@ import (
 	"github.com/aws/aws-sdk-go/service/secretsmanager"
 )
 
+//Config is the main struct for the JSON objects in config
 type Config struct {
 	Name      string
 	DbConfig  dbConfig
 	TLSConfig TLSConfig
 }
 
+//dbConfig is the Database configuration related JSON Objects
 type dbConfig struct {
 	Host         string
 	Databasename string
@@ -27,6 +30,7 @@ type dbConfig struct {
 	Password     string
 }
 
+//TLSConfig is the TLS configuration related JSON Objects
 type TLSConfig struct {
 	Certificate string
 	Key         string
@@ -48,10 +52,13 @@ var DBpass string
 //DBname variable
 var DBname string
 
+//TLSCert is the wbserver certificate
 var TLSCert []byte
 
+//TLSKey is the wbserver private key
 var TLSKey []byte
 
+//TLSPass is the password to key if found, nil otherwise.
 var TLSPass string
 
 //Gets AWS Credentials from ENV
@@ -139,6 +146,8 @@ func getConfig() []byte {
 		config = decodedBinarySecret
 
 	}
+	log.Println("Retrieved Configuration From Secrets Manager")
+
 	return []byte(config)
 
 }
@@ -147,7 +156,7 @@ func getConfig() []byte {
 func LoadConfig() {
 	config := getConfig()
 	if json.Valid(config) {
-		println("Config Looks Valid")
+		log.Println("Configuration Loaded")
 	} else {
 		panic("Could Not load Config because of invalid JSON")
 	}
@@ -163,64 +172,4 @@ func LoadConfig() {
 	TLSKey = []byte(jsonVaules.TLSConfig.Key)
 	TLSPass = jsonVaules.TLSConfig.Passphrase
 
-	// configMap := make(map[string]interface{})
-
-	// err := json.Unmarshal([]byte(config), &configMap)
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// if host, ok := Find(configMap, "host"); ok {
-	// 	switch v := host.(type) {
-	// 	case string:
-	// 		DBhost = v
-	// 	}
-	// }
-	// if port, ok := Find(configMap, "port"); ok {
-	// 	switch v := port.(type) {
-	// 	case string:
-	// 		DBport = v
-	// 	}
-	// }
-	// if username, ok := Find(configMap, "username"); ok {
-	// 	switch v := username.(type) {
-	// 	case string:
-	// 		DBuser = v
-	// 	}
-	// }
-	// if password, ok := Find(configMap, "password"); ok {
-	// 	switch v := password.(type) {
-	// 	case string:
-	// 		DBpass = v
-	// 	}
-	// }
-	// if databasename, ok := Find(configMap, "databasename"); ok {
-	// 	switch v := databasename.(type) {
-	// 	case string:
-	// 		DBname = v
-	// 	}
-	// }
-	// if certificate, ok := Find(configMap, "certificate"); ok {
-	// 	switch v := certificate.(type) {
-	// 	// case string:
-	// 	// 	TLSCert = v
-	// 	// }
-	// 	case []byte:
-	// 		TLSKey = v
-	// 	}
-	// }
-	// if key, ok := Find(configMap, "key"); ok {
-	// 	switch v := key.(type) {
-	// 	//case string:
-	// 	//	TLSKey = v
-	// 	//}
-	// 	case []byte:
-	// 		TLSKey = v
-	// 	}
-	// }
-	// if passphrase, ok := Find(configMap, "passphrase"); ok {
-	// 	switch v := passphrase.(type) {
-	// 	case string:
-	// 		TLSPass = v
-	// 	}
-	// }
 }
