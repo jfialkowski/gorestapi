@@ -23,14 +23,24 @@ func main() {
 	ConnectDB(DBuser, DBpass, DBhost, DBport, DBname)
 	var pemBlocks []*pem.Block
 	var v *pem.Block
+	var cert *pem.Block
 	var pkey []byte
-	var b []byte
+	//var b []byte
+	//var rest []byte
 	fmt.Printf("TLSKey is %v \n", TLSKey)
-	//for {
-	v, b = pem.Decode(TLSKey)
+
+	cert, rest := pem.Decode(TLSCert)
+	if cert == nil {
+		fmt.Printf("Found something %v", rest)
+		log.Fatal("Could not load certificate ")
+	} else {
+		pemBlocks = append(pemBlocks, cert)
+	}
+	v, b := pem.Decode(TLSKey)
 	fmt.Printf("V is %v \n", v)
 	if v == nil {
-		log.Fatal("V is Nil")
+		fmt.Printf("Found something %v", b)
+		log.Fatal("Could not load Private Key")
 		//break
 	}
 	if v.Type == "PRIVATE KEY" {
@@ -46,13 +56,13 @@ func main() {
 			pkey = pem.EncodeToMemory(v)
 		}
 	} else {
-		fmt.Printf("found %v in rest \n ", b)
+		//fmt.Printf("found %v in rest \n ", b)
 		pemBlocks = append(pemBlocks, v)
 	}
 	//}
 	//Encode Combined and decrypted key to memory
-
-	c, _ := tls.X509KeyPair(pem.EncodeToMemory(pemBlocks[0]), b)
+	fmt.Printf(" len=%d cap=%d Number of Index in pemBlocks \n", len(pemBlocks), cap(pemBlocks))
+	c, _ := tls.X509KeyPair(pem.EncodeToMemory(pemBlocks[0]), TLSKey)
 
 	// Construct a tls.config
 	cfg := &tls.Config{
