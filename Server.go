@@ -9,7 +9,8 @@ import (
 	"net/http"
 )
 
-func NewServer() http.Server {
+//NewServer returns an HTTP Server Pointer
+func NewServer() *http.Server {
 
 	router := NewRouter()
 
@@ -85,5 +86,5 @@ func NewServer() http.Server {
 		TLSNextProto: make(map[string]func(*http.Server, *tls.Conn, http.Handler), 0),
 	}
 	log.Println("TLS Enabled WebServer Started")
-	return server
+	return &server
 }
