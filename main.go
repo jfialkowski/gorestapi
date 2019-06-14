@@ -1,6 +1,7 @@
 package main
 
 import (
+	"gorestapi/models"
 	"log"
 	"os"
 )
@@ -13,7 +14,7 @@ func main() {
 	LoadConfig()
 
 	//ConnectDB connects to Database
-	ConnectDB(DBuser, DBpass, DBhost, DBport, DBname)
+	models.ConnectDB(DBuser, DBpass, DBhost, DBport, DBname)
 
 	//Start TLS Enabled Web Server
 	server := NewServer()
