@@ -30,10 +30,11 @@ func EmployeesIndex(w http.ResponseWriter, r *http.Request) {
 		employees, err := models.SelectAllEmployees(db)
 		if err != nil {
 			log.Fatal(err)
-		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-		w.WriteHeader(http.StatusOK)
-		if err := json.NewEncoder(w).Encode(employees); err != nil {
-			panic(err)
+			w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+			w.WriteHeader(http.StatusOK)
+			if err := json.NewEncoder(w).Encode(employees); err != nil {
+				panic(err)
+			}
 		}
 	}
 }
