@@ -1,16 +1,15 @@
 package main
 
 import (
-	"database/sql"
 	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 )
 
-type Env struct {
-	db *sql.DB
-}
+// type Env struct {
+// 	db *sql.DB
+// }
 
 func home(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Just a Homepage, nothing really to see here! ")

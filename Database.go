@@ -7,6 +7,10 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+type Env struct {
+	db *sql.DB
+}
+
 //ConnectDB connects to a DB
 func ConnectDB() (*sql.DB, error) {
 	db, err := sql.Open("mysql", DBuser+":"+DBpass+"@tcp("+DBhost+":"+DBport+")/"+DBname+"?tls=skip-verify&autocommit=true")
