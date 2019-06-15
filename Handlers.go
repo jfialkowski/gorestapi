@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"gorestapi/models/"
+	"gorestapi/models"
 	"log"
 	"net/http"
 )
