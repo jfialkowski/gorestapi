@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"gorestapi/models"
 	"log"
 	"net/http"
 )
@@ -27,7 +26,7 @@ func EmployeesIndex(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	} else {
-		employees, err := models.SelectAllEmployees(db)
+		employees, err := SelectAllEmployees(db)
 		if err != nil {
 			log.Fatal(err)
 			w.Header().Set("Content-Type", "application/json; charset=UTF-8")
