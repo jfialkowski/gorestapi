@@ -11,10 +11,12 @@ func main() {
 
 	//LoadConfig does just that, load your config
 	LoadConfig()
-
+	var err error
 	//ConnectDB connects to Database
-	ConnectDB()
-
+	DBCon, err = ConnectDB()
+	if err != nil {
+		log.Fatal(err)
+	}
 	//Start TLS Enabled Web Server
 	server := NewServer()
 	log.Fatal(server.ListenAndServeTLS("", ""))

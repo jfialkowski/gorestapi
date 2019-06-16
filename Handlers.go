@@ -7,10 +7,6 @@ import (
 	"net/http"
 )
 
-// type Env struct {
-// 	db *sql.DB
-// }
-
 func home(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Just a Homepage, nothing really to see here! ")
 }
@@ -21,18 +17,17 @@ func EmployeesIndex(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(405), 405)
 		return
 	}
-	db, err := ConnectDB()
+	employees, err := SelectAllEmployees()
 	if err != nil {
 		log.Fatal(err)
 	} else {
-		employees, err := SelectAllEmployees(db)
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(http.StatusOK)
+		js, err := json.Marshal(employees)
 		if err != nil {
-			log.Fatal(err)
-			w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-			w.WriteHeader(http.StatusOK)
-			if err := json.NewEncoder(w).Encode(employees); err != nil {
-				panic(err)
-			}
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
 		}
+		fmt.Fprintf(w, string(js))
 	}
 }
