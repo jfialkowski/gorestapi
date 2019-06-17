@@ -19,10 +19,9 @@ func Logger(inner http.Handler, name string) http.Handler {
 			IPAddress = r.RemoteAddr
 		}
 		log.Printf(
-			"%s\t%s\t%s\t%s\t%s",
+			"METHOD: %s | PATH: %s | HANDLER: %s | REQ_TIME: %s",
 			r.Method,
 			r.RequestURI,
-			r.Header,
 			name,
 			time.Since(start),
 		)
