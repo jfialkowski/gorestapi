@@ -56,7 +56,7 @@ func EmployeesUpdate(w http.ResponseWriter, r *http.Request) {
 	result, err := UpdateEmployee(Emp)
 	if err != nil {
 		log.Println(err)
-		http.Error(w, http.StatusText(405), 405)
+		http.Error(w, http.StatusText(500), 500)
 		return
 	}
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
@@ -76,11 +76,9 @@ func EmployeesDelete(w http.ResponseWriter, r *http.Request) {
 	}
 	Emp := Employee{}
 	err = json.Unmarshal(jsn, &Emp)
-	fmt.Printf("jsn is: %+v", json.Unmarshal(jsn, &Emp))
 	if err != nil {
 		log.Println("Decoding error: ", err)
 	}
-	fmt.Printf("Emp being sent over is: %+v", Emp)
 	result, err := DeleteEmployee(Emp)
 	if err != nil {
 		log.Println(err)
