@@ -40,10 +40,10 @@ func DeleteEmployee(emp Employee) (string, error) {
 	if err != nil {
 		log.Println(err)
 	}
-	_, err = stmtIns.Exec(string(emp.EmpID))
+	_, err = stmtIns.Exec(emp.EmpID)
 	if err != nil {
 		log.Println("Could not delete record")
-		log.Printf("DELETE from employees WHERE empid = '%s'", string(emp.EmpID))
+		//log.Printf("DELETE from employees WHERE empid = '%s'", emp.EmpID)
 		result = "{'Status': 'NOK-FAILURE DELETING RECORD'}"
 	}
 	result = "{'Status': 'OK-SUCESS'}"
