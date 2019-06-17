@@ -3,4 +3,14 @@ Template for starting Rest API in Go.
 
 More to follow!
 
-Now pulls configs from AWS secrets. Must setup AWS env when running app in container
+TODO:
+
+Add Employeed ID to each record
+Pass []Employees from handlers to InsertEmployee
+Create Methods to update employees with PATCH
+Create Methods to Delete employees with POST
+TLS CLient Cert authentication for POST/PATCH URI's
+Clean up the code
+Swagger for the API
+Update the README.md
+

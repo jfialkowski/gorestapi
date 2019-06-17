@@ -7,6 +7,7 @@ import (
 
 // Employee Struct
 type Employee struct {
+	EmpID      int
 	FirstName  string
 	LastName   string
 	Title      string
