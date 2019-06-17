@@ -19,7 +19,6 @@ func ConnectDB() (*sql.DB, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer DBCon.Close()
 	// Open doesn't open a connection. Validate DSN data:
 	err = DBCon.Ping()
 	if err != nil {
