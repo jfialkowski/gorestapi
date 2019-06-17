@@ -27,7 +27,7 @@ func UpdateEmployee(emp Employee) (string, error) {
 		log.Println("Could not insert record")
 		result = "{'Status': 'NOK-FAILURE UPDATING RECORD'}"
 	}
-	result = "{'Status': 'OK-SUCESS'}"
+	result = "{'Status': 'OK-SUCCESS'}"
 	stmtIns.Close()
 	return result, err
 }
@@ -46,7 +46,7 @@ func DeleteEmployee(emp Employee) (string, error) {
 		//log.Printf("DELETE from employees WHERE empid = '%s'", emp.EmpID)
 		result = "{'Status': 'NOK-FAILURE DELETING RECORD'}"
 	}
-	result = "{'Status': 'OK-SUCESS'}"
+	result = "{'Status': 'OK-SUCCESS'}"
 	stmtIns.Close()
 	return result, err
 }
@@ -64,7 +64,7 @@ func InsertEmployee(emp Employee) (string, error) {
 
 		result = "{'Status': 'NOK-FAILURE INSERTING DATA'}"
 	}
-	result = "{'Status': 'OK-SUCESS'}"
+	result = "{'Status': 'OK-SUCCESS'}"
 	stmtIns.Close()
 	return result, err
 }
