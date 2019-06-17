@@ -18,7 +18,7 @@ type Employee struct {
 func UpdateEmployee(emp Employee) (string, error) {
 
 	result := ""
-	stmtIns, err := DBCon.Prepare("UPDATE employees SET (firstname, lastname, title, department) VALUES (?, ?, ?, ?) WHERE empid = ?")
+	stmtIns, err := DBCon.Prepare("UPDATE employees SET firstname = ?, lastname = ?, title = ?, department =? WHERE empid = ?")
 	if err != nil {
 		log.Println(err)
 	}
