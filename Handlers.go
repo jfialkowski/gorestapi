@@ -24,12 +24,9 @@ func EmployeesInsert(w http.ResponseWriter, r *http.Request) {
 	}
 	Emp := Employee{}
 	err = json.Unmarshal(jsn, &Emp)
-	fmt.Printf("Emp is %v", Emp)
 	if err != nil {
 		log.Println("Decoding error: ", err)
 	}
-	log.Printf("Received: %v\n", string(jsn))
-	//result, err := InsertEmployee(Emp.FirstName, Emp.LastName, Emp.Title, Emp.Department)
 	result, err := InsertEmployee(Emp)
 	if err != nil {
 		log.Println(err)

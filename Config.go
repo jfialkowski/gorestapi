@@ -164,7 +164,6 @@ func LoadConfig() {
 	} else {
 		panic("Could Not load Config because of invalid JSON")
 	}
-
 	var jsonVaules Config
 	json.Unmarshal(config, &jsonVaules)
 	DBhost = jsonVaules.DbConfig.Host

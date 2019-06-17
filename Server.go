@@ -76,7 +76,6 @@ func NewServer() *http.Server {
 		},
 		Certificates: []tls.Certificate{c},
 	}
-
 	// Build a server:
 	server := http.Server{
 		// Other options
