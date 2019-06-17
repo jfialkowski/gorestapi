@@ -18,7 +18,7 @@ type Employee struct {
 func UpdateEmployee(emp Employee) (string, error) {
 
 	result := ""
-	stmtIns, err := DBCon.Prepare("UPDATE employees SET (firstname, lastname, title, department) VALUES (?, ?, ?, ?) WHERE empid = '?'")
+	stmtIns, err := DBCon.Prepare("UPDATE employees SET (firstname, lastname, title, department) VALUES (?, ?, ?, ?) WHERE empid = ?")
 	if err != nil {
 		log.Println(err)
 	}
@@ -34,7 +34,6 @@ func UpdateEmployee(emp Employee) (string, error) {
 
 //DeleteEmployee deletes a record from the database
 func DeleteEmployee(emp Employee) (string, error) {
-	fmt.Printf("Got this for emp: %+v", emp)
 	result := ""
 	stmtIns, err := DBCon.Prepare("DELETE from employees WHERE empid = ?")
 	if err != nil {
@@ -43,7 +42,6 @@ func DeleteEmployee(emp Employee) (string, error) {
 	_, err = stmtIns.Exec(emp.EmpID)
 	if err != nil {
 		log.Println("Could not delete record")
-		//log.Printf("DELETE from employees WHERE empid = '%s'", emp.EmpID)
 		result = "{'Status': 'NOK-FAILURE DELETING RECORD'}"
 	}
 	result = "{'Status': 'OK-SUCCESS'}"
