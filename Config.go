@@ -176,5 +176,4 @@ func LoadConfig() {
 	TLSKey = []byte(jsonVaules.TLSConfig.Key)
 	TLSPass = jsonVaules.TLSConfig.Passphrase
 	ServerPort = jsonVaules.TLSConfig.ServerPort
-
 }

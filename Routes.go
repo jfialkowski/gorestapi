@@ -29,9 +29,9 @@ var routes = Routes{
 		EmployeesIndex,
 	},
 	Route{
-		"Employees",
+		"EmployeesInsert",
 		"POST",
-		"/employees",
-		EmployeesIndex,
+		"/employeesinsert",
+		EmployeesInsert,
 	},
 }
