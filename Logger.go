@@ -22,7 +22,7 @@ func Logger(inner http.Handler, name string) http.Handler {
 			"%s\t%s\t%s\t%s\t%s",
 			r.Method,
 			r.RequestURI,
-			IPAddress,
+			r.Header,
 			name,
 			time.Since(start),
 		)
