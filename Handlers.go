@@ -80,8 +80,8 @@ func EmployeesDelete(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println("Decoding error: ", err)
 	}
-	fmt.Printf("Emp being sent over is: %+v", &Emp)
-	result, err := DeleteEmployee(&Emp)
+	fmt.Printf("Emp being sent over is: %+v", Emp)
+	result, err := DeleteEmployee(Emp)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, http.StatusText(405), 405)
