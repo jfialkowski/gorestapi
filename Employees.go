@@ -46,7 +46,7 @@ func SelectAllEmployees() ([]*Employee, error) {
 	for rows.Next() {
 		//fmt.Printf("%v", rows)
 		emp := new(Employee)
-		err := rows.Scan(&emp.FirstName, &emp.LastName, &emp.Title, &emp.Department)
+		err := rows.Scan(&emp.EmpID, &emp.FirstName, &emp.LastName, &emp.Title, &emp.Department)
 		fmt.Printf("%v", emp)
 		if err != nil {
 			log.Println("Nothing returned in rows")
