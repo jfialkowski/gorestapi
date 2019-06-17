@@ -5,7 +5,7 @@ More to follow!
 
 TODO:
 
-Add Employeed ID to each record
+DONE - Add Employeed ID to each record
 Pass []Employees from handlers to InsertEmployee
 Create Methods to update employees with PATCH
 Create Methods to Delete employees with POST

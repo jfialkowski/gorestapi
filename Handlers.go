@@ -29,7 +29,8 @@ func EmployeesInsert(w http.ResponseWriter, r *http.Request) {
 		log.Println("Decoding error: ", err)
 	}
 	log.Printf("Received: %v\n", string(jsn))
-	result, err := InsertEmployee(Emp.FirstName, Emp.LastName, Emp.Title, Emp.Department)
+	//result, err := InsertEmployee(Emp.FirstName, Emp.LastName, Emp.Title, Emp.Department)
+	result, err := InsertEmployee(Emp)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, http.StatusText(405), 405)

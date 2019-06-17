@@ -15,8 +15,8 @@ type Employee struct {
 }
 
 //InsertEmployee inserts a new Employee record.
-func InsertEmployee(FirstName string, LastName string, Title string, Department string) (string, error) {
-
+//func InsertEmployee(FirstName string, LastName string, Title string, Department string) (string, error) {
+func InsertEmployee(emp Employee) (string, error) {
 	result := ""
 	stmtIns, err := DBCon.Prepare("INSERT INTO employees (firstname, lastname, title, department) VALUES (?, ?, ?, ?)") // ? = placeholder
 	if err != nil {
@@ -24,7 +24,8 @@ func InsertEmployee(FirstName string, LastName string, Title string, Department 
 	}
 	defer stmtIns.Close() // Close the statement when we leave main() / the program terminates
 
-	_, err = stmtIns.Exec(FirstName, LastName, Title, Department)
+	_, err = stmtIns.Exec(emp.FirstName, emp.LastName, emp.Title, emp.Department)
+	//_, err = stmtIns.Exec(FirstName, LastName, Title, Department)
 	if err != nil {
 		log.Println("Could not insert record")
 		result = "{'Status': 'NOK-FAILURE INSERTING DATA'}"
