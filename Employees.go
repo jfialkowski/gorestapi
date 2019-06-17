@@ -33,8 +33,8 @@ func UpdateEmployee(emp Employee) (string, error) {
 }
 
 //DeleteEmployee deletes a record from the database
-func DeleteEmployee(emp *Employee) (string, error) {
-	fmt.Printf("Got this for emp: %v", emp)
+func DeleteEmployee(emp Employee) (string, error) {
+	fmt.Printf("Got this for emp: %+v", emp)
 	result := ""
 	stmtIns, err := DBCon.Prepare("DELETE from employees WHERE empid = '?'")
 	if err != nil {
