@@ -42,7 +42,8 @@ func DeleteEmployee(emp Employee) (string, error) {
 	}
 	_, err = stmtIns.Exec(string(emp.EmpID))
 	if err != nil {
-		log.Println("Could not insert record")
+		log.Println("Could not delete record")
+		log.Printf("DELETE from employees WHERE empid = '%s'", string(emp.EmpID))
 		result = "{'Status': 'NOK-FAILURE DELETING RECORD'}"
 	}
 	result = "{'Status': 'OK-SUCESS'}"
@@ -60,6 +61,7 @@ func InsertEmployee(emp Employee) (string, error) {
 	_, err = stmtIns.Exec(emp.FirstName, emp.LastName, emp.Title, emp.Department)
 	if err != nil {
 		log.Println("Could not insert record")
+
 		result = "{'Status': 'NOK-FAILURE INSERTING DATA'}"
 	}
 	result = "{'Status': 'OK-SUCESS'}"
