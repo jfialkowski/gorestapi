@@ -12,7 +12,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Just a Homepage, nothing really to see here! ")
 }
 
-// EmployeesInsert create a new employees record
+// EmployeesInsert handler for creating a new employee record
 func EmployeesInsert(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		http.Error(w, http.StatusText(405), 405)
@@ -38,7 +38,59 @@ func EmployeesInsert(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, result)
 }
 
-// EmployeesIndex returns all employees
+//EmployeesUpdate handler for updating employee
+func EmployeesUpdate(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "PATCH" {
+		http.Error(w, http.StatusText(405), 405)
+		return
+	}
+	jsn, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Fatal("Error reading the body", err)
+	}
+	Emp := Employee{}
+	err = json.Unmarshal(jsn, &Emp)
+	if err != nil {
+		log.Println("Decoding error: ", err)
+	}
+	result, err := UpdateEmployee(Emp)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, http.StatusText(405), 405)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintf(w, result)
+}
+
+//EmployeesDelete handler for deleting employees
+func EmployeesDelete(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		http.Error(w, http.StatusText(405), 405)
+		return
+	}
+	jsn, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Fatal("Error reading the body", err)
+	}
+	Emp := Employee{}
+	err = json.Unmarshal(jsn, &Emp)
+	if err != nil {
+		log.Println("Decoding error: ", err)
+	}
+	result, err := DeleteEmployee(Emp)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, http.StatusText(405), 405)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintf(w, result)
+}
+
+// EmployeesIndex handler returns all employees
 func EmployeesIndex(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		http.Error(w, http.StatusText(405), 405)

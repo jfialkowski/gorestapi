@@ -38,4 +38,18 @@ var routes = Routes{
 		"/employeesinsert",
 		EmployeesInsert,
 	},
+	Route{
+		"EmployeesUpdate",
+		"PATCH",
+		true,
+		"/employeesupdate",
+		EmployeesUpdate,
+	},
+	Route{
+		"EmployeesDelete",
+		"POST",
+		true,
+		"/employeesdelete",
+		EmployeesDelete,
+	},
 }

@@ -14,6 +14,42 @@ type Employee struct {
 	Department string
 }
 
+//UpdateEmployee updates an existing record in DB
+func UpdateEmployee(emp Employee) (string, error) {
+
+	result := ""
+	stmtIns, err := DBCon.Prepare("UPDATE employees SET (firstname, lastname, title, department) VALUES (?, ?, ?, ?) WHERE empid = '?'")
+	if err != nil {
+		log.Println(err)
+	}
+	_, err = stmtIns.Exec(emp.FirstName, emp.LastName, emp.Title, emp.Department, emp.EmpID)
+	if err != nil {
+		log.Println("Could not insert record")
+		result = "{'Status': 'NOK-FAILURE UPDATING RECORD'}"
+	}
+	result = "{'Status': 'OK-SUCESS'}"
+	stmtIns.Close()
+	return result, err
+}
+
+//DeleteEmployee deletes a record from the database
+func DeleteEmployee(emp Employee) (string, error) {
+
+	result := ""
+	stmtIns, err := DBCon.Prepare("DELETE from employees WHERE empid = '?'")
+	if err != nil {
+		log.Println(err)
+	}
+	_, err = stmtIns.Exec(emp.EmpID)
+	if err != nil {
+		log.Println("Could not insert record")
+		result = "{'Status': 'NOK-FAILURE DELETING RECORD'}"
+	}
+	result = "{'Status': 'OK-SUCESS'}"
+	stmtIns.Close()
+	return result, err
+}
+
 //InsertEmployee inserts a new Employee record.
 func InsertEmployee(emp Employee) (string, error) {
 	result := ""
