@@ -36,7 +36,7 @@ func UpdateEmployee(emp Employee) (string, error) {
 func DeleteEmployee(emp Employee) (string, error) {
 	fmt.Printf("Got this for emp: %+v", emp)
 	result := ""
-	stmtIns, err := DBCon.Prepare("DELETE from employees WHERE empid = '?'")
+	stmtIns, err := DBCon.Prepare("DELETE from employees WHERE empid = ?")
 	if err != nil {
 		log.Println(err)
 	}
