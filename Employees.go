@@ -40,7 +40,7 @@ func DeleteEmployee(emp Employee) (string, error) {
 	if err != nil {
 		log.Println(err)
 	}
-	_, err = stmtIns.Exec(emp.EmpID)
+	_, err = stmtIns.Exec(string(emp.EmpID))
 	if err != nil {
 		log.Println("Could not insert record")
 		result = "{'Status': 'NOK-FAILURE DELETING RECORD'}"
