@@ -76,7 +76,7 @@ func EmployeesDelete(w http.ResponseWriter, r *http.Request) {
 	}
 	var Emp Employee
 	err = json.Unmarshal(jsn, &Emp)
-	fmt.Printf("jsn is: %+v", jsn)
+	fmt.Printf("jsn is: %+v", json.Unmarshal(jsn, &Emp))
 	if err != nil {
 		log.Println("Decoding error: ", err)
 	}
