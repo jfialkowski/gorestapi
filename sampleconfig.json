@@ -1,0 +1,16 @@
+{
+    "name": "gorestapi",
+    "dbConfig": {
+      "host": "<DatabaseHost>.rds.amazonaws.com",
+      "databasename": "<DatabaseName>",
+      "port": "<DBPort>",
+      "username": "<DBUsername>",
+      "password": "<DBPassword>"
+    },
+    "TLSConfig": {
+      "certificate": "<PEM Firmat of Certificate>",
+      "key": "<PEM Formatted Private Key>",
+      "passphrase": "<PrivateKeyPassphrase>",
+      "ServerPort": "<PORT to RUN Service on>"
+    }
+  }
