@@ -30,21 +30,21 @@ Use JSON formated data for POST/PATCH methods:
 
 ```curl https://host/path -d '{"foo":"bar"}```  
 
-### Paths:
-GET /v1/employees - Provides a JSON list of all employees
+### Paths & Methods:
+[GET] /v1/employees - Provides a JSON list of all employees
 
-POST /v1/employeesinsert - Inserts a new employee 
+[POST] /v1/employeesinsert - Inserts a new employee 
 
-PATCH /v1/employeesupdate - Updates an existing employee by given EmpID. 
+[PATCH] /v1/employeesupdate - Updates an existing employee by given EmpID. 
 
-POST /v1/employeesdelete - Removes an employee
+[POST] /v1/employeesdelete - Removes an employee
 
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## License
-[GPL3]
+GPL3
 
 ## TODO:
 Add authentication for POST/PATCH URI's
