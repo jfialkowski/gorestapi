@@ -22,7 +22,7 @@ Put it in a container and run. The Docker file provided can be used to build you
 
 The sample application allows you to list / update and delete fictitious employees from the database. 
 
-To use https://<serverName>:<port>/<path> using curl. 
+To use ```https://<serverName>:<port>/<path>```  
 
 Use JSON formated data for POST/PATCH methods.
 
