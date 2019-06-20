@@ -10,11 +10,13 @@ The app was tested using a backend AWS RDS database instance as a data store but
 
 ## Building
 
-```git pull
+```
+git pull
 
 go get -d ./...
 
-go build .```
+go build .
+```
 
 Put it in a container and run. The Docker file provided can be used to build your own image to run the API on Kubernetes or your container orchestrator of choice. 
 
