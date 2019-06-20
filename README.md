@@ -10,22 +10,21 @@ The app was tested using a backend AWS RDS database instance as a data store but
 
 ## Building
 
-git pull
+```git pull
 
 go get -d ./...
 
-go build .
+go build .```
 
 Put it in a container and run. The Docker file provided can be used to build your own image to run the API on Kubernetes or your container orchestrator of choice. 
 
 ## Usage
 
-The sample application allows you to list / update and delete fictitious employees from the database. 
+The sample application allows you to list / update and delete fictitious employees from the database.  
 
-To use 
 ```curl https://<serverName>:<port>/<path>```  
 
-Use JSON formated data for POST/PATCH methods.
+Use JSON formated data for POST/PATCH methods:
 
 ```curl https://host/path -d '{"foo":"bar"}```  
 
