@@ -1,6 +1,6 @@
 # gorestapi
 
-This aplication is to be used as a template for creating a REST API in Go. It is a WORK IN PROGRESS. Please review the code if you plan on using it. Use at your own risk. Comments Suggestions and Pull requests are welcomed if you want to make it better.   
+This aplication is to be used as a template for creating a REST API in Go. It is a WORK IN PROGRESS. Please review the code if you plan on using it. Use at your own risk. Comments, Suggestions, and Pull Requests are welcome.   
 
 ## Configuration
 
