@@ -12,8 +12,8 @@ import (
 func KeyDecrypt() tls.Certificate {
 	var pemBlocks []*pem.Block
 	certAndKey := append(TLSKey, TLSCert...)
-	log.Printf("KEY is: %v", TLSKey)
-	log.Printf("CERT is: %v", TLSCert)
+	log.Printf("KEY is: %s", TLSKey)
+	log.Printf("CERT is: %s", TLSCert)
 	var v *pem.Block
 	var pkey []byte
 
