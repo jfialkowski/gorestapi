@@ -77,7 +77,7 @@ func NewServer() *http.Server {
 			if x509.IsEncryptedPEMBlock(v) {
 				log.Println("Private Key is encrypted, attempting decryption")
 				pkey, derr = x509.DecryptPEMBlock(v, []byte(TLSPass))
-				if err != nil {
+				if derr != nil {
 					log.Println("Error Decrypting Key")
 				}
 				pkey = pem.EncodeToMemory(&pem.Block{
