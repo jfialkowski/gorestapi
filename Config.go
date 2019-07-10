@@ -54,10 +54,10 @@ var DBpass string
 var DBname string
 
 //TLSCert is the wbserver certificate
-var TLSCert []byte
+var TLSCert string
 
 //TLSKey is the wbserver private key
-var TLSKey []byte
+var TLSKey string
 
 //TLSPass is the password to key if found, nil otherwise.
 var TLSPass string
@@ -171,8 +171,8 @@ func LoadConfig() {
 	DBuser = jsonVaules.DbConfig.Username
 	DBpass = jsonVaules.DbConfig.Password
 	DBname = jsonVaules.DbConfig.Databasename
-	TLSCert = []byte(jsonVaules.TLSConfig.Certificate)
-	TLSKey = []byte(jsonVaules.TLSConfig.Key)
+	TLSCert = jsonVaules.TLSConfig.Certificate
+	TLSKey = jsonVaules.TLSConfig.Key
 	TLSPass = jsonVaules.TLSConfig.Passphrase
 	ServerPort = jsonVaules.TLSConfig.ServerPort
 }

@@ -11,14 +11,15 @@ import (
 //KeyDecrypt Decrypts an RSA Encrypted KEY and returns a TLS Certificate with unencrypted key and cert pair
 func KeyDecrypt() tls.Certificate {
 	var pemBlocks []*pem.Block
-	certAndKey := append(TLSKey, TLSCert...)
+	certAndKey := TLSKey + "\n" + TLSCert
 	log.Printf("KEY is: %s", TLSKey)
 	log.Printf("CERT is: %s", TLSCert)
 	var v *pem.Block
 	var pkey []byte
+	combinedBytes := []byte(certAndKey)
 
 	//for {
-	v, certAndKey = pem.Decode(certAndKey)
+	v, combinedBytes = pem.Decode(combinedBytes)
 	if v == nil {
 		log.Fatal("Could not load a private Key")
 	}
