@@ -16,16 +16,22 @@ func KeyDecrypt() tls.Certificate {
 	log.Printf("CERT is: %s", TLSCert)
 	var v *pem.Block
 	var pkey []byte
-	combinedBytes := []byte(certAndKey)
+	b := []byte(certAndKey)
+	var err error
 
 	//for {
-	v, combinedBytes = pem.Decode(combinedBytes)
+	v, b = pem.Decode(b)
 	if v == nil {
 		log.Fatal("Could not load a private Key")
 	}
 	if v.Type == "RSA PRIVATE KEY" {
+		log.Println("Found a private Key")
 		if x509.IsEncryptedPEMBlock(v) {
-			pkey, _ = x509.DecryptPEMBlock(v, []byte(TLSPass))
+			log.Println("Private Key is encrypted, attempting decryption")
+			pkey, err = x509.DecryptPEMBlock(v, []byte(TLSPass))
+			if err != nil {
+				log.Fatal("Error Decrypting Key")
+			}
 			pkey = pem.EncodeToMemory(&pem.Block{
 				Type:  v.Type,
 				Bytes: pkey,
