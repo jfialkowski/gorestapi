@@ -20,7 +20,6 @@ func KeyDecrypt() tls.Certificate {
 	for {
 		v, b = pem.Decode(b)
 		if v == nil {
-			log.Println("Could not load a private Key")
 			break
 		}
 		if v.Type == "RSA PRIVATE KEY" {
@@ -35,14 +34,12 @@ func KeyDecrypt() tls.Certificate {
 					Type:  v.Type,
 					Bytes: pkey,
 				})
-				log.Println("Decrypted Private Key encoded to memory")
+				log.Println("Decrypted Private Key sucessfully")
 			} else {
 				pkey = pem.EncodeToMemory(v)
-				log.Println("Private Key encoded to memory")
 			}
 		} else {
 			pemBlocks = append(pemBlocks, v)
-			log.Println("Private Key Simply Appended to PemBlocks")
 		}
 	}
 	c, _ := tls.X509KeyPair(pem.EncodeToMemory(pemBlocks[0]), pkey)
@@ -54,85 +51,6 @@ func NewServer() *http.Server {
 
 	router := NewRouter()
 	c := KeyDecrypt()
-	// var pemBlocks []*pem.Block
-	// certAndKey := TLSKey + "\n" + TLSCert
-	// log.Printf("KEY is: %s", TLSKey)
-	// log.Printf("CERT is: %s", TLSCert)
-	// var v *pem.Block
-	// var pkey []byte
-	// b := []byte(certAndKey)
-	// var derr error
-
-	// for {
-	// 	v, b = pem.Decode(b)
-	// 	if v == nil {
-	// 		log.Println("Could not load a private Key")
-	// 		break
-	// 	}
-	// 	if v.Type == "RSA PRIVATE KEY" {
-	// 		log.Println("Found a private Key")
-	// 		if x509.IsEncryptedPEMBlock(v) {
-	// 			log.Println("Private Key is encrypted, attempting decryption")
-	// 			pkey, derr = x509.DecryptPEMBlock(v, []byte(TLSPass))
-	// 			if derr != nil {
-	// 				log.Println("Error Decrypting Key")
-	// 			}
-	// 			pkey = pem.EncodeToMemory(&pem.Block{
-	// 				Type:  v.Type,
-	// 				Bytes: pkey,
-	// 			})
-	// 			log.Println("Decrypted Private Key encoded to memory")
-	// 		} else {
-	// 			pkey = pem.EncodeToMemory(v)
-	// 			log.Println("Private Key encoded to memory")
-	// 		}
-	// 	} else {
-	// 		pemBlocks = append(pemBlocks, v)
-	// 		log.Println("Private Key Simply Appended to PemBlocks")
-	// 	}
-	// }
-	// //log.Printf("pemBlock[0] is: %+v", pemBlocks[0])
-	// //log.Printf("pkey is is: %+v", pkey)
-	// c, err := tls.X509KeyPair(pem.EncodeToMemory(pemBlocks[0]), pkey)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	//Load Up The TLS Key and Cert to be used in HTTP Daemon
-	// var pemBlocks []*pem.Block
-	// var v *pem.Block
-	// var cert *pem.Block
-	// var pkey []byte
-
-	// cert, rest := pem.Decode(TLSCert)
-	// if cert == nil {
-	// 	log.Fatal("Could not load certificate ")
-	// 	fmt.Printf("%v", rest)
-	// } else {
-	// 	pemBlocks = append(pemBlocks, cert)
-	// }
-	// v, b := pem.Decode(TLSKey)
-	// if v == nil {
-	// 	log.Fatal("Could not load Private Key")
-	// 	fmt.Printf("%v", b)
-
-	// }
-	// if v.Type == "PRIVATE KEY" {
-	// 	if x509.IsEncryptedPEMBlock(v) {
-	// 		pkey, _ = x509.DecryptPEMBlock(v, []byte(TLSPass))
-	// 		pkey = pem.EncodeToMemory(&pem.Block{
-	// 			Type:  v.Type,
-	// 			Bytes: pkey,
-	// 		})
-	// 	} else {
-	// 		//fmt.Println("Encoded to memory")
-	// 		pkey = pem.EncodeToMemory(v)
-	// 	}
-	// } else {
-	// 	pemBlocks = append(pemBlocks, v)
-	// }
-
-	// //Encode Combined and decrypted key to memory
-	// c, _ := tls.X509KeyPair(pem.EncodeToMemory(pemBlocks[0]), TLSKey)
 
 	// Construct a tls.config
 	cfg := &tls.Config{
