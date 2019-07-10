@@ -34,6 +34,8 @@ func KeyDecrypt() tls.Certificate {
 		pemBlocks = append(pemBlocks, v)
 	}
 	//}
+	log.Printf("pemBlock[0] is: %+v", pemBlocks[0])
+	log.Printf("pkey is is: %+v", pkey)
 	c, _ := tls.X509KeyPair(pem.EncodeToMemory(pemBlocks[0]), pkey)
 	return c
 }
