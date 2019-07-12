@@ -11,7 +11,7 @@ import (
 //KeyDecrypt Decrypts an RSA Encrypted KEY and returns a TLS Certificate with unencrypted key and cert pair
 func KeyDecrypt() tls.Certificate {
 	var pemBlocks []*pem.Block
-	certAndKey := TLSKey + "\n" + TLSCert
+	certAndKey := TLSKey + "\n" + TLSCert + "\n" + TLSChain
 	var v *pem.Block
 	var pkey []byte
 	b := []byte(certAndKey)
