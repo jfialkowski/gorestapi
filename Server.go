@@ -55,6 +55,7 @@ func NewServer() *http.Server {
 	chain := []byte(TLSChain)
 	caCertPool := x509.NewCertPool()
 	caCertPool.AppendCertsFromPEM(chain)
+	log.Printf("CaChain is: %v", caCertPool)
 
 	// Construct a tls.config
 	cfg := &tls.Config{
