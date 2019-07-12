@@ -34,6 +34,7 @@ type dbConfig struct {
 type TLSConfig struct {
 	Certificate string
 	Key         string
+	Cachain		string
 	Passphrase  string
 	ServerPort  string
 }
@@ -61,6 +62,9 @@ var TLSKey string
 
 //TLSPass is the password to key if found, nil otherwise.
 var TLSPass string
+
+/TLSChain is the CA Chain for your Certificate
+var TLSChain string
 
 //ServerPort is the port you want the app to run on
 var ServerPort string
@@ -173,6 +177,7 @@ func LoadConfig() {
 	DBname = jsonVaules.DbConfig.Databasename
 	TLSCert = jsonVaules.TLSConfig.Certificate
 	TLSKey = jsonVaules.TLSConfig.Key
+	TLSChain = jsonVaules.TLSConfig.Cachain
 	TLSPass = jsonVaules.TLSConfig.Passphrase
 	ServerPort = jsonVaules.TLSConfig.ServerPort
 }

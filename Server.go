@@ -52,6 +52,10 @@ func NewServer() *http.Server {
 	router := NewRouter()
 	c := KeyDecrypt()
 
+	chain := []byte(TLSChain)
+	caCertPool := x509.NewCertPool()
+	caCertPool.AppendCertsFromPEM(chain)
+
 	// Construct a tls.config
 	cfg := &tls.Config{
 		MinVersion:               tls.VersionTLS12,
