@@ -34,7 +34,7 @@ type dbConfig struct {
 type TLSConfig struct {
 	Certificate string
 	Key         string
-	Cachain		string
+	Cachain     string
 	Passphrase  string
 	ServerPort  string
 }
@@ -63,7 +63,7 @@ var TLSKey string
 //TLSPass is the password to key if found, nil otherwise.
 var TLSPass string
 
-/TLSChain is the CA Chain for your Certificate
+//TLSChain is the CA Chain for your Certificate
 var TLSChain string
 
 //ServerPort is the port you want the app to run on
