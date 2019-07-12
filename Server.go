@@ -46,16 +46,21 @@ func KeyDecrypt() tls.Certificate {
 	return c
 }
 
+//BuildChain Returns a Cert Pool of the CA Certs provided
+func BuildChain() x509.CertPool {
+	chain := []byte(TLSChain)
+	caCertPool := x509.NewCertPool()
+	caCertPool.AppendCertsFromPEM(chain)
+	return *caCertPool
+}
+
 //NewServer returns an HTTP Server Pointer
 func NewServer() *http.Server {
 
 	router := NewRouter()
 	c := KeyDecrypt()
 
-	chain := []byte(TLSChain)
-	caCertPool := x509.NewCertPool()
-	caCertPool.AppendCertsFromPEM(chain)
-	log.Printf("CaChain is: %v", caCertPool)
+	caCertPool := BuildChain()
 
 	// Construct a tls.config
 	cfg := &tls.Config{
@@ -84,6 +89,7 @@ func NewServer() *http.Server {
 			// tls.TLS_RSA_WITH_AES_256_CBC_SHA,
 			// tls.TLS_RSA_WITH_3DES_EDE_CBC_SHA,
 		},
+		RootCAs:      &caCertPool,
 		Certificates: []tls.Certificate{c},
 	}
 	// Build a server:
