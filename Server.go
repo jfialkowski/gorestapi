@@ -11,7 +11,7 @@ import (
 //KeyDecrypt Decrypts an RSA Encrypted KEY and returns a TLS Certificate with unencrypted key and cert pair
 func KeyDecrypt() tls.Certificate {
 	var pemBlocks []*pem.Block
-	certAndKey := TLSKey + "\n" + TLSCert + "\n" + TLSChain
+	certAndKey := TLSKey + "\n" + TLSCert
 	var v *pem.Block
 	var pkey []byte
 	b := []byte(certAndKey)
@@ -19,6 +19,7 @@ func KeyDecrypt() tls.Certificate {
 
 	for {
 		v, b = pem.Decode(b)
+
 		if v == nil {
 			break
 		}
@@ -42,10 +43,13 @@ func KeyDecrypt() tls.Certificate {
 			pemBlocks = append(pemBlocks, v)
 		}
 	}
-	for i, v := range pemBlocks {
-		log.Printf("Pemblock is %v and its element is %s", pemBlocks[i], v)
+	chain, rest := pem.Decode([]byte(TLSChain))
+	_ = rest
+	pemBlocks = append(pemBlocks, chain)
+	// for i, v := range pemBlocks {
+	// 	log.Printf("Pemblock is %v and its element is %s", pemBlocks[i], v)
 
-	}
+	// }
 
 	c, _ := tls.X509KeyPair(pem.EncodeToMemory(pemBlocks[0]), pkey)
 	return c
