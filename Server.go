@@ -44,14 +44,16 @@ func KeyDecrypt() tls.Certificate {
 		}
 	}
 	log.Printf("Lenth of pemBlock is %b", len(pemBlocks))
-	// chain, rest := pem.Decode([]byte(TLSChain))
-	// _ = rest
-	// pemBlocks = append(pemBlocks, chain)
+	chain, rest := pem.Decode([]byte(TLSChain))
+	_ = rest
+	pemBlocks = append(pemBlocks, chain)
 	// for i, v := range pemBlocks {
 	// 	log.Printf("Pemblock is %v and its element is %s", pemBlocks[i], v)
 
 	// }
-
+	// if ok := append(pemBlocks, chain); !ok {
+	// 	log.Println("Failed to Load CA Certs")
+	// }
 	c, _ := tls.X509KeyPair(pem.EncodeToMemory(pemBlocks[0]), pkey)
 	return c
 }
@@ -78,10 +80,10 @@ func NewServer() *http.Server {
 	// } else {
 	// 	log.Println("Could not load CA Chain")
 	// }
-	rootCAs := x509.NewCertPool()
-	if ok := rootCAs.AppendCertsFromPEM([]byte(TLSChain)); !ok {
-		log.Println("Failed to Load CA Certs")
-	}
+	// rootCAs := x509.NewCertPool()
+	// if ok := rootCAs.AppendCertsFromPEM([]byte(TLSChain)); !ok {
+	// 	log.Println("Failed to Load CA Certs")
+	// }
 
 	// Construct a tls.config
 	cfg := &tls.Config{
@@ -110,7 +112,7 @@ func NewServer() *http.Server {
 			// tls.TLS_RSA_WITH_AES_256_CBC_SHA,
 			// tls.TLS_RSA_WITH_3DES_EDE_CBC_SHA,
 		},
-		RootCAs:      rootCAs,
+		//RootCAs:      rootCAs,
 		Certificates: []tls.Certificate{c},
 	}
 	// Build a server:
