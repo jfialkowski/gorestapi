@@ -38,32 +38,17 @@ func KeyDecrypt() tls.Certificate {
 				log.Println("Decrypted Private Key sucessfully")
 			} else {
 				pkey = pem.EncodeToMemory(v)
-				log.Println("Encoded to memory")
+
 			}
 		} else {
 			pemBlocks = append(pemBlocks, v)
-			log.Println("Appended cert to pemBlock")
+
 		}
 	}
 
-	// chain, rest := pem.Decode([]byte(TLSChain))
-	// _ = rest
-
-	// for i, v := range pemBlocks {
-	// 	log.Printf("Pemblock is %v and its element is %s", pemBlocks[i], v)
-
-	// }
-	// if ok := append(pemBlocks, chain); !ok {
-	// 	log.Println("Failed to Load CA Certs")
-	// }
-	log.Printf("Lenth of pemBlock is %d ", len(pemBlocks))
 	certStr := TLSCert + TLSChain
 	cert := []byte(certStr)
 	c, _ := tls.X509KeyPair(cert, pkey)
-	//c, _ := tls.X509KeyPair(pem.EncodeToMemory(pemBlocks[0]), pkey)
-
-	// certificateChain := append(c.Certificate, []byte(TLSChain))
-	// _ = certificateChain
 	return c
 }
 
@@ -81,17 +66,6 @@ func NewServer() *http.Server {
 	router := NewRouter()
 	c := KeyDecrypt()
 
-	//caCerts := BuildChain()
-	// chain := []byte(TLSChain)
-	// caCertPool := x509.NewCertPool()
-	// if caCertPool.AppendCertsFromPEM(chain) {
-	// 	log.Print("Loaded CA Cahin")
-	// } else {
-	// 	log.Println("Could not load CA Chain")
-	// }
-	rootCAs := x509.NewCertPool()
-	rootCAs.AppendCertsFromPEM([]byte(TLSChain))
-
 	// Construct a tls.config
 	cfg := &tls.Config{
 		MinVersion:               tls.VersionTLS12,
@@ -102,25 +76,7 @@ func NewServer() *http.Server {
 			tls.TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,
 			tls.TLS_RSA_WITH_AES_256_GCM_SHA384,
 			tls.TLS_RSA_WITH_AES_256_CBC_SHA,
-			// tls.TLS_AES_128_GCM_SHA256,
-			// tls.TLS_AES_256_GCM_SHA384,
-			// tls.TLS_CHACHA20_POLY1305_SHA256,
-			// tls.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
-			// tls.TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
-			// tls.TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,
-			// tls.TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,
-			// tls.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
-			// tls.TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
-			// tls.TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,
-			// tls.TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,
-			// tls.TLS_RSA_WITH_AES_128_GCM_SHA256,
-			// tls.TLS_RSA_WITH_AES_256_GCM_SHA384,
-			// tls.TLS_RSA_WITH_AES_128_CBC_SHA,
-			// tls.TLS_RSA_WITH_AES_256_CBC_SHA,
-			// tls.TLS_RSA_WITH_3DES_EDE_CBC_SHA,
 		},
-		RootCAs:      rootCAs,
-		ClientCAs:    rootCAs,
 		Certificates: []tls.Certificate{c},
 	}
 	// Build a server:
