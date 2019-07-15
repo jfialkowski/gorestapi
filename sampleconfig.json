@@ -8,7 +8,8 @@
       "password": "<DBPassword>"
     },
     "TLSConfig": {
-      "certificate": "<PEM Firmat of Certificate>",
+      "certificate": "<PEM Formatted Certificate>",
+      "cachain": "<Pem Formatted chain of ca certificates>",
       "key": "<PEM Formatted Private Key>",
       "passphrase": "<PrivateKeyPassphrase>",
       "ServerPort": "<PORT to RUN Service on>"
