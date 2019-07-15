@@ -58,6 +58,8 @@ func KeyDecrypt() tls.Certificate {
 	log.Printf("Lenth of pemBlock is %b and the capacity is %b", len(pemBlocks), cap(pemBlocks))
 	log.Printf("Lenth of pkey is %b and capactity is %b", len(pkey), cap(pkey))
 	c, _ := tls.X509KeyPair(pem.EncodeToMemory(pemBlocks[0]), pkey)
+	certificateChain := append(c.Certificate, []byte(TLSChain))
+	_ = certificateChain
 	return c
 }
 
