@@ -55,8 +55,8 @@ func KeyDecrypt() tls.Certificate {
 	// if ok := append(pemBlocks, chain); !ok {
 	// 	log.Println("Failed to Load CA Certs")
 	// }
-	log.Printf("Lenth of pemBlock is %b", len(pemBlocks))
-	log.Printf("Lenth of pkey is %b", len(pkey))
+	log.Printf("Lenth of pemBlock is %b and the capacity is %b", len(pemBlocks), cap(pemBlocks))
+	log.Printf("Lenth of pkey is %b and capactity is %b", len(pkey), cap(pkey))
 	c, _ := tls.X509KeyPair(pem.EncodeToMemory(pemBlocks[0]), pkey)
 	return c
 }
