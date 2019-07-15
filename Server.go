@@ -59,7 +59,7 @@ func KeyDecrypt() tls.Certificate {
 	log.Printf("Lenth of pemBlock is %d and the capacity is %d", len(pemBlocks), cap(pemBlocks))
 	log.Printf("Lenth of pkey is %d and capactity is %d", len(pkey), cap(pkey))
 	c, _ := tls.X509KeyPair(pem.EncodeToMemory(pemBlocks[0]), pkey)
-	c.Certificate = append(c.Certificate, []byte(TLSChain))
+
 	// certificateChain := append(c.Certificate, []byte(TLSChain))
 	// _ = certificateChain
 	return c
@@ -87,10 +87,10 @@ func NewServer() *http.Server {
 	// } else {
 	// 	log.Println("Could not load CA Chain")
 	// }
-	// rootCAs := x509.NewCertPool()
-	// if ok := rootCAs.AppendCertsFromPEM([]byte(TLSChain)); !ok {
-	// 	log.Println("Failed to Load CA Certs")
-	// }
+	rootCAs := x509.NewCertPool()
+	if ok := rootCAs.AppendCertsFromPEM([]byte(TLSChain)); !ok {
+		log.Println("Failed to Load CA Certs")
+	}
 
 	// Construct a tls.config
 	cfg := &tls.Config{
@@ -119,7 +119,8 @@ func NewServer() *http.Server {
 			// tls.TLS_RSA_WITH_AES_256_CBC_SHA,
 			// tls.TLS_RSA_WITH_3DES_EDE_CBC_SHA,
 		},
-		//RootCAs:      rootCAs,
+		RootCAs:      rootCAs,
+		ClientCAs:    rootCAs,
 		Certificates: []tls.Certificate{c},
 	}
 	// Build a server:
