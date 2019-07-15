@@ -78,6 +78,10 @@ func NewServer() *http.Server {
 	// } else {
 	// 	log.Println("Could not load CA Chain")
 	// }
+	rootCAs := x509.NewCertPool()
+	if ok := rootCAs.AppendCertsFromPEM([]byte(TLSChain)); !ok {
+		log.Println("Failed to Load CA Certs")
+	}
 
 	// Construct a tls.config
 	cfg := &tls.Config{
@@ -106,7 +110,7 @@ func NewServer() *http.Server {
 			// tls.TLS_RSA_WITH_AES_256_CBC_SHA,
 			// tls.TLS_RSA_WITH_3DES_EDE_CBC_SHA,
 		},
-		//RootCAs:      caCertPool,
+		RootCAs:      rootCAs,
 		Certificates: []tls.Certificate{c},
 	}
 	// Build a server:
