@@ -38,16 +38,17 @@ func KeyDecrypt() tls.Certificate {
 				log.Println("Decrypted Private Key sucessfully")
 			} else {
 				pkey = pem.EncodeToMemory(v)
-				log.Panicln("Encoded to memory")
+				log.Println("Encoded to memory")
 			}
 		} else {
 			pemBlocks = append(pemBlocks, v)
+			log.Println("Appended cert to pemBlock")
 		}
 	}
 
-	chain, rest := pem.Decode([]byte(TLSChain))
-	_ = rest
-	pemBlocks = append(pemBlocks, chain)
+	// chain, rest := pem.Decode([]byte(TLSChain))
+	// _ = rest
+
 	// for i, v := range pemBlocks {
 	// 	log.Printf("Pemblock is %v and its element is %s", pemBlocks[i], v)
 
@@ -55,11 +56,11 @@ func KeyDecrypt() tls.Certificate {
 	// if ok := append(pemBlocks, chain); !ok {
 	// 	log.Println("Failed to Load CA Certs")
 	// }
-	log.Printf("Lenth of pemBlock is %b and the capacity is %b", len(pemBlocks), cap(pemBlocks))
-	log.Printf("Lenth of pkey is %b and capactity is %b", len(pkey), cap(pkey))
+	log.Printf("Lenth of pemBlock is %d and the capacity is %d", len(pemBlocks), cap(pemBlocks))
+	log.Printf("Lenth of pkey is %d and capactity is %d", len(pkey), cap(pkey))
 	c, _ := tls.X509KeyPair(pem.EncodeToMemory(pemBlocks[0]), pkey)
-	certificateChain := append(c.Certificate, []byte(TLSChain))
-	_ = certificateChain
+	// certificateChain := append(c.Certificate, []byte(TLSChain))
+	// _ = certificateChain
 	return c
 }
 
