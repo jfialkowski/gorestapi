@@ -49,4 +49,3 @@ GPL3
 ## TODO:
 Add authentication for POST/PATCH URI's
 APISpec for the API
-
